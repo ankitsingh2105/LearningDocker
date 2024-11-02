@@ -1,0 +1,24 @@
+# * take the baseimage ubuntu
+FROM ubuntu
+
+
+# install nodejs in your image
+RUN curl -sL https://deb.nodesource.com/setup_22.x -o /tmp/nodesource_setup.sh
+RUN bash /tmp/nodesource_setup.sh
+RUN apt install nodejs
+
+# todo : copy this code to docker image
+# * format -> command source destination
+COPY index.js /home/app/index
+
+COPY package-lock.json /home/app/package-lock.json
+
+COPY package.json /home/app/package.json
+
+WORKDIR /home/app
+
+RUN npm install 
+
+
+# todo we need to build this image
+
