@@ -1,13 +1,17 @@
 # * take the baseimage ubuntu
-FROM ubuntu
+# FROM ubuntu
 
+# we will use the alpine veriosn image where nodejs is already installed
+FROM node:lts-alpine3.20
+# lts = long term support
+# alpine and ubutun are bros
 
 # install nodejs in your image
-RUN apt-get update
-RUN apt install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_22.x -o /tmp/nodesource_setup.sh
-RUN bash /tmp/nodesource_setup.sh
-RUN apt install -y nodejs
+# RUN apt-get update
+# RUN apt install -y curl
+# RUN curl -sL https://deb.nodesource.com/setup_22.x -o /tmp/nodesource_setup.sh
+# RUN bash /tmp/nodesource_setup.sh
+# RUN apt install -y nodejs
 
 # todo : copy this code to docker image
 # * format -> command source destination
@@ -20,6 +24,15 @@ COPY package.json /home/app/package.json
 WORKDIR /home/app
 
 RUN npm install 
+
+# !CMD ["nodemon" , "index"] *this wont work 
+
+#* [because] In a Docker container, executables in node_modules/.bin (where nodemon is typically located when installed locally) are not globally available by default. So, unless nodemon is installed globally with npm install -g nodemon, running CMD ["nodemon", "index"] won’t find nodemon because it isn’t in the PATH.
+
+CMD [ "npm",  "start"]
+
+# this will be seend after 
+# ? docker inspect lightimage
 
 
 # todo we need to build this image
